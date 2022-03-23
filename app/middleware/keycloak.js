@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import session from 'express-session';
 import Keycloak from 'keycloak-connect';
 
