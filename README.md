@@ -1,3 +1,10 @@
+Spin up keycloak
+`docker-compose -f keycloak-postgres.yml up`
+(port localhost:8080)
+
+connecting:
+https://medium.com/devops-dudes/securing-node-js-express-rest-apis-with-keycloak-a4946083be51
+
 <h1>universsr</h1>
 
 <p>

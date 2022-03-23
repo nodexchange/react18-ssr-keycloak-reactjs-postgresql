@@ -3,17 +3,37 @@ import hpp from 'hpp';
 import helmet from 'helmet';
 import compression from 'compression';
 import favicon from 'serve-favicon';
+import session from 'express-session';
+import cors from 'cors';
+
 import runHttpServer from './server';
-import { httpLogger } from './middleware';
+import { initKeycloak, httpLogger } from './middleware';
 import { env, paths } from '../utils';
 
 const app = express();
+
+const memoryStore = new session.MemoryStore();
+
+app.use(
+  session({
+    secret: 'some secret',
+    resave: false,
+    saveUninitialized: true,
+    store: memoryStore
+  })
+);
+
+const keycloak = initKeycloak(memoryStore);
+
+// Enable CORS support
+app.use(cors());
 
 // could add more middleware here where applicable
 app.use(httpLogger());
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(hpp());
 app.use(compression());
+app.use(keycloak.middleware());
 
 // serve static files
 app.use(express.static(paths.build));
