@@ -2,8 +2,11 @@ Spin up keycloak
 `docker-compose -f keycloak-postgres.yml up`
 (port localhost:8080)
 
-secret:
+PC secret:
 7z9Kzv1VwCMWjobPkO7iNI1L6pvXgpiO
+
+MAC sercert:
+cQA6mjqbMG5gW40v5Yyl3DmRE1EzCISm
 
 localhost:3000 only
 

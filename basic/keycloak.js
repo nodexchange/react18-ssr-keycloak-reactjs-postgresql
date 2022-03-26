@@ -8,7 +8,8 @@ var keycloakConfig = {
   serverUrl: 'http://localhost:8080/auth',
   realm: 'Demo-Realm',
   credentials: {
-    secret: '7z9Kzv1VwCMWjobPkO7iNI1L6pvXgpiO'
+    // secret: '7z9Kzv1VwCMWjobPkO7iNI1L6pvXgpiO'
+    secret: 'cQA6mjqbMG5gW40v5Yyl3DmRE1EzCISm'
   }
 };
 
