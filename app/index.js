@@ -11,6 +11,7 @@ import { initKeycloak, httpLogger } from './middleware';
 import { env, paths } from '../utils';
 
 const app = express();
+const router = express.Router();
 
 const memoryStore = new session.MemoryStore();
 
@@ -34,6 +35,16 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.use(hpp());
 app.use(compression());
 app.use(keycloak.middleware());
+/* routes */
+router.get('/anonymous', function (req, res) {
+  res.send('Hello Anonymous');
+});
+
+router.get('/client', keycloak.protect('client'), function (req, res) {
+  res.send('Hello Client');
+});
+
+app.use('/test', router);
 
 // serve static files
 app.use(express.static(paths.build));

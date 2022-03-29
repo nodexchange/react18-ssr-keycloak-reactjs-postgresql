@@ -1,24 +1,16 @@
-// eslint-disable-next-line no-unused-vars
-import session from 'express-session';
 import Keycloak from 'keycloak-connect';
 
 let _keycloak;
 
-// Small Note: If the client Access Type is bearer-only instead of credentials you need to provide realmPublicKey. Realm Public Key can be copied from Realm Settings > Keys > Public Key.
-// var keycloakConfig = {
-//     clientId: 'nodejs-microservice',
-//     bearerOnly: true,
-//     serverUrl: 'http://localhost:8080/auth',
-//     realm: 'Demo-Realm',
-//     realmPublicKey: 'MIIBIjANBgkqhkiG9w0BAQEFAAO...'
-// };
+const { KEYCLOAK_SECRET, KEYCLOAK_URL, KEYCLOAK_CLIENT, KEYCLOAK_REALM } =
+  process.env;
 const keycloakConfig = {
-  clientId: 'nodejs-microservice',
+  clientId: KEYCLOAK_CLIENT,
   bearerOnly: true,
-  serverUrl: 'http://localhost:8080/auth',
-  realm: 'Demo-Realm',
+  serverUrl: KEYCLOAK_URL,
+  realm: KEYCLOAK_REALM,
   credentials: {
-    secret: '62c99f7c-da55-48fb-ae4e-a27f132546b7'
+    secret: KEYCLOAK_SECRET
   }
 };
 
@@ -41,3 +33,16 @@ export function getKeycloak() {
   }
   return _keycloak;
 }
+
+async function loginUser(username, password) {
+  return await _keycloak.grantManager
+    .obtainDirectly(username, password)
+    .then(grant => {
+      return grant;
+    });
+}
+
+export const authenticate = async (name, password) => {
+  let grant = await loginUser(name, password); // 'employee1', 'password'
+  console.log(grant);
+};

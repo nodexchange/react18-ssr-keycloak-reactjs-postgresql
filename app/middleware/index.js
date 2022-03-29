@@ -1,2 +1,2 @@
 export { default as httpLogger } from './httpLogger';
-export { initKeycloak, getKeycloak } from './keycloak';
+export { initKeycloak, authenticate } from './keycloak';
