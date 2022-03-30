@@ -1,19 +1,4 @@
-## .env
-
-KEYCLOAK_SECRET={}
-KEYCLOAK_SERVER={}
-KEYCLOAK_CLIENT={}
-KEYCLOAK_REALM={}
-
----
-
-Spin up keycloak
-`npm run docker` (port localhost:8080)
-
-connecting:
-https://medium.com/devops-dudes/securing-node-js-express-rest-apis-with-keycloak-a4946083be51
-
-<h1>universsr</h1>
+<h1>React 18 - rendertoPipeableStream example based on universsr</h1>
 
 <p>
 <a href="https://github.com/borisding/universsr"><img src="https://img.shields.io/github/release/borisding/universsr.svg" alt="Release Version"></a>
@@ -22,6 +7,21 @@ https://medium.com/devops-dudes/securing-node-js-express-rest-apis-with-keycloak
 <a href="https://david-dm.org/borisding/universsr"><img src="https://david-dm.org/borisding/universsr/status.svg" alt="Dependencies"></a>
 <a href="https://david-dm.org/borisding/universsr?type=dev"><img src="https://david-dm.org/borisding/universsr/dev-status.svg" alt="Dev Dependencies"></a>
 </p>
+
+## .env.development example
+
+KEYCLOAK_SECRET={}
+KEYCLOAK_SERVER={}
+KEYCLOAK_CLIENT={}
+KEYCLOAK_REALM={}
+
+## Connecting to Keycloak:
+
+https://medium.com/devops-dudes/securing-node-js-express-rest-apis-with-keycloak-a4946083be51
+
+## Spin up keycloak
+
+`npm run docker` (port localhost:8080)
 
 **universsr** - Universal React web app boilerplate, powered by Node.js Express web framework as backend.
 
