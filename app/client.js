@@ -1,4 +1,4 @@
-import { hydrate } from 'react-dom';
+import { hydrateRoot } from 'react-dom';
 import { loadableReady } from '@loadable/component';
 import { createFrontloadState } from 'react-frontload';
 import { BrowserRouter } from 'react-router-dom';
@@ -12,11 +12,11 @@ const frontloadState = createFrontloadState.client({
 });
 
 loadableReady(() => {
-  hydrate(
+  hydrateRoot(
+    document.getElementById('root'),
     <BrowserRouter>
       <App frontloadState={frontloadState} />
-    </BrowserRouter>,
-    document.getElementById('root')
+    </BrowserRouter>
   );
 });
 

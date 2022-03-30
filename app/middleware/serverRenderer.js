@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { renderToString } from 'react-dom/server';
+import { renderToPipeableStream, renderToString } from 'react-dom/server';
 import { ChunkExtractor } from '@loadable/server';
 import { createFrontloadState, frontloadServerRender } from 'react-frontload';
 import { minify } from 'html-minifier';
@@ -31,11 +31,14 @@ function createHtmlPageContent(data) {
 
 export default function serverRenderer() {
   return async (req, res, next) => {
+    res.socket.on('error', error => {
+      console.error('Fatal', error);
+    });
+
     try {
       const staticContext = {};
       const statsFile = path.resolve(`${paths.build}/loadable-stats.json`);
       const extractor = new ChunkExtractor({ statsFile });
-
       const frontloadState = createFrontloadState.server({
         context: { api: services }
       });
@@ -43,7 +46,7 @@ export default function serverRenderer() {
       const { rendered, data } = await frontloadServerRender({
         frontloadState,
         render() {
-          return renderToString(
+          return renderToPipeableStream(
             extractor.collectChunks(
               <StaticRouter location={req.url} context={staticContext}>
                 <App frontloadState={frontloadState} />
