@@ -1,4 +1,5 @@
-import { hydrateRoot } from 'react-dom';
+/* global MODE */
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import { loadableReady } from '@loadable/component';
 import { createFrontloadState } from 'react-frontload';
 import { BrowserRouter } from 'react-router-dom';
@@ -11,13 +12,25 @@ const frontloadState = createFrontloadState.client({
   serverRenderedData: window.__UNIVERSSR_FRONTLOAD_DATA__
 });
 
+let root;
+console.log('{}{} React 18 - mode {}{} ', MODE);
+const container = document.getElementById('root');
+const app = (
+  <BrowserRouter>
+    <App frontloadState={frontloadState} />
+  </BrowserRouter>
+);
+
+if (MODE === 'development' && !root) {
+  root = createRoot(container);
+}
+
 loadableReady(() => {
-  hydrateRoot(
-    document.getElementById('root'),
-    <BrowserRouter>
-      <App frontloadState={frontloadState} />
-    </BrowserRouter>
-  );
+  if (MODE === 'development') {
+    root.render(app);
+    return;
+  }
+  hydrateRoot(container, app);
 });
 
 // temp fix for webpack 5

@@ -5,7 +5,6 @@ export default function html({
   rendered,
   frontloadData
 } = {}) {
-  console.log(rendered);
   return `<!DOCTYPE html>
   <html ${helmet.htmlAttributes.toString()}>
     <head>

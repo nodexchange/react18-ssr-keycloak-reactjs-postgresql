@@ -46,7 +46,8 @@ export default function serverRenderer() {
       const { rendered, data } = await frontloadServerRender({
         frontloadState,
         render() {
-          return renderToPipeableStream(
+          const render = env.isDev ? renderToString : renderToPipeableStream;
+          return render(
             extractor.collectChunks(
               <StaticRouter location={req.url} context={staticContext}>
                 <App frontloadState={frontloadState} />

@@ -17,7 +17,7 @@ export default function Home() {
         rel="noopener noreferrer"
         target="_blank"
       >
-        GitHub repository
+        GitHub repo
       </a>
     </Page>
   );

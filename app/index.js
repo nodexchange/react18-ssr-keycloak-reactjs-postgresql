@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import favicon from 'serve-favicon';
 import session from 'express-session';
+import path from 'path';
 import cors from 'cors';
 
 import runHttpServer from './server';
@@ -36,6 +37,12 @@ app.use(hpp());
 app.use(compression());
 app.use(keycloak.middleware());
 /* routes */
+
+router.get('/login', function (request, response) {
+  // Render login template
+  response.sendFile(path.join(__dirname + 'app/static/login.html'));
+});
+
 router.get('/anonymous', function (req, res) {
   res.send('Hello Anonymous');
 });

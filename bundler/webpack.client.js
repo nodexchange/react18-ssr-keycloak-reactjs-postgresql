@@ -92,7 +92,10 @@ const clientConfig = {
 if (isDev) {
   clientConfig.plugins = [
     ...clientConfig.plugins,
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      MODE: JSON.stringify('development')
+    })
   ];
 } else {
   clientConfig.plugins = [
