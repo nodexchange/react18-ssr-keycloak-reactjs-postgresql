@@ -36,13 +36,7 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.use(hpp());
 app.use(compression());
 app.use(keycloak.middleware());
-/* routes */
-
-router.get('/login', function (request, response) {
-  // Render login template
-  response.sendFile(path.join(__dirname + 'app/static/login.html'));
-});
-
+/* API Routes */
 router.get('/anonymous', function (req, res) {
   res.send('Hello Anonymous');
 });
