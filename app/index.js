@@ -8,7 +8,7 @@ import path from 'path';
 import cors from 'cors';
 
 import runHttpServer from './server';
-import { initKeycloak, httpLogger } from './middleware';
+import { initKeycloak, authenticate, httpLogger } from './middleware';
 import { env, paths } from '../utils';
 
 const app = express();
@@ -31,6 +31,8 @@ const keycloak = initKeycloak(memoryStore);
 app.use(cors());
 
 // could add more middleware here where applicable
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(httpLogger());
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(hpp());
@@ -41,10 +43,54 @@ router.get('/anonymous', function (req, res) {
   res.send('Hello Anonymous');
 });
 
+router.get('/login', function (req, res) {
+  // res.send('Hello Anonymous');
+  res.sendFile(path.join(__dirname + '/static/login.html'));
+});
+
 router.get('/client', keycloak.protect('client'), function (req, res) {
   res.send('Hello Client');
 });
 
+router.post('/auth', function (request, response) {
+  // Capture the input fields
+  let username = request.body.username;
+  let password = request.body.password;
+  console.log('POST MADE?', username, password);
+  // Ensure the input fields exists and are not empty
+  if (username && password) {
+    // Execute SQL query that'll select the account from the database based on the specified username and password
+    authenticate(username, password).then((error, results) => {
+      // If there is an issue with the query, output the error
+      if (error) throw error;
+      // If the account exists
+      if (results.length > 0) {
+        // Authenticate the user
+        request.session.loggedin = true;
+        request.session.username = username;
+        // Redirect to home page
+        response.redirect('/');
+      } else {
+        response.send('Incorrect Username and/or Password!');
+      }
+      response.end();
+    });
+  } else {
+    response.send('Please enter Username and Password!');
+    response.end();
+  }
+});
+router.get('/home', function (request, response) {
+  // If the user is loggedin
+  if (request.session.loggedin) {
+    // Output username
+    response.send('Welcome back, ' + request.session.username + '!');
+  } else {
+    // Not logged in
+    response.send('Please login to view this page!');
+  }
+  response.end();
+});
 app.use('/test', router);
 
 // serve static files

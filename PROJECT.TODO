@@ -3,5 +3,5 @@
 ☐ single-spa SSR
 ☐ socket.io (realtime)
 ☐ service workers check?
-☐ react 18 - server stream.
+✔ react 18 - server stream. @done (30/03/2022, 15:33:09)
 ☐ login screen

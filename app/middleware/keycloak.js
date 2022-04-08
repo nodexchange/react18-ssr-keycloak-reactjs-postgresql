@@ -45,4 +45,5 @@ async function loginUser(username, password) {
 export const authenticate = async (name, password) => {
   let grant = await loginUser(name, password); // 'employee1', 'password'
   console.log(grant);
+  return grant;
 };

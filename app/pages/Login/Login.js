@@ -5,7 +5,7 @@ const Login = props => {
   return (
     <div className={styles.login}>
       <h1>Login</h1>
-      <form action="/auth" method="post">
+      <form action="/test/auth" method="post">
         <label htmlFor="username">
           <i className="fas fa-user"></i>
         </label>
