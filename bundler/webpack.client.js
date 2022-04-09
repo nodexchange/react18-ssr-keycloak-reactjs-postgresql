@@ -22,6 +22,10 @@ const clientConfig = {
   context: paths.app,
   mode: config.mode,
   devtool: config.devtool,
+  cache: {
+    type: 'filesystem',
+    allowCollectingMemory: true
+  },
   resolve: {
     ...config.resolve,
     fallback: {
@@ -40,23 +44,25 @@ const clientConfig = {
     filename: isDev ? '[name].js' : '[name].[contenthash:8].js',
     chunkFilename: isDev ? '[id].chunk.js' : '[id].chunk.[contenthash:8].js'
   },
-  optimization: {
-    // @see: https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
-    // @see: https://webpack.js.org/plugins/css-minimizer-webpack-plugin/#options
-    minimizer: [new TerserJSPlugin(), new CssMinimizerPlugin()],
-    runtimeChunk: {
-      name: entrypoint => `runtime~${entrypoint.name}`
-    },
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'all'
+  optimization: isDev
+    ? {
+        // @see: https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+        // @see: https://webpack.js.org/plugins/css-minimizer-webpack-plugin/#options
+        minimizer: [new TerserJSPlugin(), new CssMinimizerPlugin()],
+        runtimeChunk: {
+          name: entrypoint => `runtime~${entrypoint.name}`
+        },
+        splitChunks: {
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendor',
+              chunks: 'all'
+            }
+          }
         }
       }
-    }
-  },
+    : {},
   // for more about performance hints
   // @see: https://webpack.js.org/configuration/performance/#performance
   performance: isDev

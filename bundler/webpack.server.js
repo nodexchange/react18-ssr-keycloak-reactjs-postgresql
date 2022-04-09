@@ -23,6 +23,7 @@ const serverConfig = {
   devtool: config.devtool,
   resolve: config.resolve,
   externals: nodeExternals,
+  stats: 'summary',
   entry: './middleware/serverRenderer.js',
   output: {
     path: config.outputPath,
